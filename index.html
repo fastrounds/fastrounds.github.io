@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient ID Redirect</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            font-size: 24px;
+            color: #333;
+            margin-top: 0;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0069d9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Patient Access</h1>
+        <div class="form-group">
+            <label for="patientId">Enter Patient ID:</label>
+            <input type="text" id="patientId" placeholder="Enter patient ID number" autofocus>
+        </div>
+        <button onclick="redirectToPatient()">Access Patient Record</button>
+    </div>
+
+    <script>
+        function redirectToPatient() {
+            var patientId = document.getElementById('patientId').value.trim();
+            
+            if (patientId === '') {
+                alert('Please enter a patient ID');
+                return;
+            }
+            
+            var baseUrl = "https://fiori.ril.com/sap/bc/ui5_ui5/ui2/ushell/shells/abap/FioriLaunchpad.html?sap-ushell-config=headerless&sap-theme=ZRFH_HN%40%2fsap%2fpublic%2fbc%2fthemes%2f%7eclient-586%2f&saml2=disabled#ZHN-clinicalOverview?appId=&appType=IP&/PatientCollection('INST_PAT_ID%2001RFH100";
+            var endUrl = "')/IP";
+            
+            var fullUrl = baseUrl + patientId + endUrl;
+            window.location.href = fullUrl;
+        }
+        
+        // Also enable pressing Enter key to submit
+        document.getElementById('patientId').addEventListener('keyup', function(event) {
+            if (event.key === 'Enter') {
+                redirectToPatient();
+            }
+        });
+    </script>
+</body>
+</html>
