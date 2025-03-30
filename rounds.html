@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surgery Rounds Text Tool</title>
+    <style>
+        :root {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #252525;
+            --bg-tertiary: #333333;
+            --text-primary: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --accent: #5c8ed0;
+            --accent-hover: #7ba6e0;
+            --button-bg: #2a2a2a;
+            --button-hover: #3a3a3a;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        h1 {
+            color: var(--accent);
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .text-area-container {
+            margin-bottom: 20px;
+        }
+        
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 12px;
+            border: none;
+            border-radius: var(--border-radius);
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 16px;
+            resize: vertical;
+            box-shadow: var(--box-shadow);
+            transition: all 0.2s ease;
+        }
+        
+        textarea:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--accent);
+        }
+        
+        .button-groups {
+            margin-bottom: 20px;
+        }
+        
+        .button-group {
+            background-color: var(--bg-secondary);
+            border-radius: var(--border-radius);
+            padding: 12px;
+            margin-bottom: 15px;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .group-title {
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: var(--accent);
+            font-size: 16px;
+            border-bottom: 1px solid var(--bg-tertiary);
+            padding-bottom: 8px;
+        }
+        
+        .snippet-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .snippet-button {
+            background-color: var(--button-bg);
+            color: var(--text-secondary);
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            flex-grow: 0;
+        }
+        
+        .snippet-button:hover {
+            background-color: var(--button-hover);
+            color: var(--text-primary);
+            transform: translateY(-1px);
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        
+        .action-button {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 16px;
+            flex: 1;
+            transition: all 0.2s ease;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .action-button:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body>
+    <h1>Surgery Rounds Quick Text</h1>
+    
+    <div class="text-area-container">
+        <textarea id="notesTextarea" placeholder="Enter your notes here..."></textarea>
+    </div>
+    
+    <div id="buttonGroups" class="button-groups">
+        <!-- Button groups will be loaded from JSON -->
+    </div>
+    
+    <div class="action-buttons">
+        <button class="action-button" onclick="copyToClipboard()">Copy</button>
+        <button class="action-button" onclick="clearText()">Clear</button>
+    </div>
+
+    <script>
+        // Default data in case the JSON file doesn't load
+        let buttonData = [
+            {
+                groupTitle: "Physical Examination",
+                snippets: [
+                    { label: "Stable Vitals", text: "Patient is stable, vitals within normal limits." },
+                    { label: "Clean Incision", text: "Incision site clean and dry. No signs of infection." },
+                    { label: "No Complications", text: "No signs of post-operative complications." },
+                    { label: "Mild Tenderness", text: "Mild tenderness at the incision site. No erythema or discharge." }
+                ]
+            },
+            {
+                groupTitle: "Feeds & Output",
+                snippets: [
+                    { label: "Tolerating Feeds", text: "Patient tolerating oral feeds well." },
+                    { label: "Bowel Sounds", text: "Bowel sounds present in all quadrants." },
+                    { label: "No N/V", text: "No nausea or vomiting since last rounds." },
+                    { label: "Regular BM", text: "Regular bowel movements. No abnormalities noted." }
+                ]
+            }
+        ];
+
+        // Function to load data.json from the local directory
+        function loadJsonData() {
+            fetch('data.json')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    buttonData = data;
+                    generateButtonGroups(data);
+                })
+                .catch(error => {
+                    console.error('Error loading JSON:', error);
+                    // Use default data
+                    generateButtonGroups(buttonData);
+                });
+        }
+
+        // Function to generate button groups from data
+        function generateButtonGroups(data) {
+            const buttonGroupsContainer = document.getElementById('buttonGroups');
+            buttonGroupsContainer.innerHTML = ''; // Clear existing groups
+            
+            data.forEach(group => {
+                const groupDiv = document.createElement('div');
+                groupDiv.className = 'button-group';
+                
+                const titleDiv = document.createElement('div');
+                titleDiv.className = 'group-title';
+                titleDiv.textContent = group.groupTitle;
+                groupDiv.appendChild(titleDiv);
+                
+                const buttonsDiv = document.createElement('div');
+                buttonsDiv.className = 'snippet-buttons';
+                
+                group.snippets.forEach(snippet => {
+                    const button = document.createElement('button');
+                    button.className = 'snippet-button';
+                    button.textContent = snippet.label;
+                    button.onclick = function() {
+                        insertText(snippet.text);
+                    };
+                    buttonsDiv.appendChild(button);
+                });
+                
+                groupDiv.appendChild(buttonsDiv);
+                buttonGroupsContainer.appendChild(groupDiv);
+            });
+        }
+        
+        // Text insertion function
+        function insertText(text) {
+            const textarea = document.getElementById('notesTextarea');
+            const startPos = textarea.selectionStart;
+            const endPos = textarea.selectionEnd;
+            const scrollTop = textarea.scrollTop;
+            
+            const textBefore = textarea.value.substring(0, startPos);
+            const textAfter = textarea.value.substring(endPos);
+            
+            textarea.value = textBefore + text  + textAfter;
+            
+            // Put cursor after inserted text
+            const newCursorPos = startPos + text.length + 1;
+            textarea.focus({ preventScroll: true });
+            textarea.selectionStart = newCursorPos;
+            textarea.selectionEnd = newCursorPos;
+            textarea.scrollTop = scrollTop;
+        }
+        
+        // Copy text to clipboard
+        function copyToClipboard() {
+            const textarea = document.getElementById('notesTextarea');
+            textarea.select();
+            document.execCommand('copy');
+        }
+        
+        // Clear text
+        function clearText() {
+            document.getElementById('notesTextarea').value = '';
+        }
+        
+        // Initialize on page load
+        window.onload = function() {
+            // Load the JSON data
+            loadJsonData();
+        };
+    </script>
+</body>
+</html>

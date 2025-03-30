@@ -1,0 +1,88 @@
+[
+    {
+        "groupTitle": "Pain",
+        "snippets": [
+            {"label": "Comfortable", "text": "Patient is comfortable\n"},
+            {"label": "No Pain", "text": "No Complaints of Pain\n"},
+            {"label": "Minimal", "text": "Minimal Complaints of Pain\n"},
+            {"label": "Mild", "text": "Mild Complaints of Pain\n"},
+            {"label": "Moderate", "text": "Moderate Complaints of Pain\n"},
+            {"label": "Severe", "text": "Severe Complaints of Pain\n"}
+        ]
+    },
+    {
+        "groupTitle": "Food",
+        "snippets": [
+            {"label": "NBM", "text": "Patient is NBM\n"},
+            {"label": "Sips", "text": "Taking sips of water\n"},
+            {"label": "CL", "text": "Taking clear liquids\n"},
+            {"label": "FL", "text": "Taking full liquids\n"},
+            {"label": "SD", "text": "Taking soft diet\n"},
+            {"label": "DSD", "text": "Taking diabetic soft diet\n"},
+            {"label": "FD", "text": "Taking full diet\n"},
+            {"label": "DFD", "text": "Taking diabetic full diet\n"},
+            {"label": "Tolerating", "text": "Tolerating Well\n"}
+        ]
+    },
+    {
+        "groupTitle": "Nausea/Vomiting",
+        "snippets": [
+            {"label": "No N/V", "text": "No nausea\n"},
+            {"label": "Nausea No Vomiting", "text": "Patient complains of nausea, no episodes of vomiting\n"}
+        ]
+    },
+    {
+        "groupTitle": "Mobilised",
+        "snippets": [
+            {"label": "Not", "text": "Not mobilised\n"},
+            {"label": "In Bed", "text": "Mobilised in bed\n"},
+            {"label": "Edge of Bed", "text": "Mobilised to edge of bed\n"},
+            {"label": "Chair", "text": "Mobilised to chair\n"},
+            {"label": "In Room", "text": "Mobilised in room\n"},
+            {"label": "In Ward", "text": "Mobilised in ward\n"},
+            {"label": "Well", "text": "Mobilised well\n"}
+        ]
+    },
+    {
+        "groupTitle": "Urine",
+        "snippets": [
+            {"label": "Foley", "text": "Foley's in situ\n"},
+            {"label": "Urine Comfortable", "text": "Passing urine comfortably\n"},
+            {"label": "Passing Urine", "text": "Passing urine\n"},
+            {"label": "Passed Urine", "text": "Passed urine\n"}
+        ]
+    },
+    {
+        "groupTitle": "Bowel",
+        "snippets": [
+            {"label": "Not Passed", "text": "Flatus and Motion not passed\n"},
+            {"label": "Passed Flatus", "text": "Passed flatus\n"},
+            {"label": "Passing Flatus", "text": "Passing flatus\n"},
+            {"label": "Motion Not Passed", "text": "Not passed motion\n"},
+            {"label": "Passed Motion", "text": "Passed motion\n"}
+        ]
+    },
+    {
+        "groupTitle": "Vitals",
+        "snippets": [
+            {"label": "Basics", "text": "Pulse\nBP\nSpO2\n"},
+            {"label": "HGT", "text": "HGT\n"},
+            {"label": "AG", "text": "AG\n"},
+            {"label": "I/O", "text": "I/O\n"}
+        ]
+    },
+    {
+        "groupTitle": "Medications",
+        "snippets": [
+            {"label": "Supacef", "text": "Inj Supacef 1.5g IV BD\n"},
+            {"label": "Meropenem", "text": "Inj Meropenem 1g IV TDS\n"},
+            {"label": "Pipzo", "text": "Inj Pipzo 4.5g IV TDS\n"},
+            {"label": "Metro", "text": "Inj Metro 500mg IV TDS\n"},
+            {"label": "Emeset", "text": "Inj Emeset 8mg IV TDS\n"},
+            {"label": "Pan", "text": "Inj Pan 40mg IV OD\n"},
+            {"label": "Dexamethasone", "text": "Inj Dexamethasone 8mg IV OD\n"},
+            {"label": "Kabimol", "text": "Inj Kabimol 1g IV TDS\n"},
+            {"label": "Tramadol", "text": "Inj Tramadol 50mg IV BD\n"}
+        ]
+    }
+]
